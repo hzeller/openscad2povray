@@ -16,7 +16,7 @@ pov_gen=1;
 
 openscad_vpr = $vpr;
 openscad_vpt = $vpt;
-openscad_vpd = 500; // openscad issue #839;
+openscad_vpd = $vpd;
 openscad_vpw = 800;
 openscad_vph = 450;
 
@@ -183,10 +183,8 @@ module openscad2povray_init()
 module _cube(size = [1, 1, 1], center = false)
 {
     cube(size,center);
-    assign(psize = (len(size)==undef ? [size,size,size] : size))
-    {
-        pov(str("box {", center ? strv(-psize/2) : strv([0,0,0]),",", strv(psize/(center ? 2 : 1)), "}" ));
-    }
+    psize = len(size)==undef ? [size,size,size] : size;
+    pov(str("box {", center ? strv(-psize/2) : strv([0,0,0]),",", strv(psize/(center ? 2 : 1)), "}" ));
 }
 
 module _sphere(r=1)
@@ -212,7 +210,8 @@ module __multisided_cone(r1,r2,h,center)
 
 module _cylinder(r1,r2,r = 1,h = 1, center = false)
 {
-    assign(r1 = (r1==undef ? r : r1), r2 = (r2 == undef ? r : r2))
+    r1 = r1==undef ? r : r1;
+    r2 = r2 == undef ? r : r2;
     {
         cylinder(r1=r1,r2=r2,h=h,center=center);
         if ($fn>0 && $fn<30) 
@@ -285,16 +284,11 @@ module _scale(v,c="")
   __object_close("scale",strv(v));
 }
 
-module __multmatrix(m,c="")
+module _multmatrix(m,c="")
 {
   __object_open("multimatrix", $children,c);
   multmatrix(m) { children([0:$children-1]); }
   __object_close("matrix",strv([m[0][0],m[1][0],m[2][0],m[0][1],m[1][1],m[2][1],m[0][2],m[1][2],m[2][2],m[0][3],m[1][3],m[2][3]]));
-}
-
-module _multmatrix(m,c="")
-{
-    __multmatrix(m,c);
 }
 
 module _mirror(v)
@@ -390,4 +384,3 @@ module _group()
   if ($children>0) group() { children([0:$children-1]); }
   pov(str("}"));
 }
-
