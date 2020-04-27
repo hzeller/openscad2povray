@@ -12,7 +12,7 @@ OPENSCAD_DISTANCE=1000
 
 all: radial6.png
 
-%.csg : %.scad
+%.csg : %.scad Makefile
 	openscad $< -o $@
 
 %.pov.csg : %.csg
