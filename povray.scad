@@ -63,7 +63,7 @@ module pov(s,c) // s = string to print out, c = optional end of line comment
     }    
 }       
 module povc(c) pov("",c); // a single line of comment
-module pove(e) pov(str("##### ERROR #####: ", e)); // POVRAY with error message 
+module pove(e) pov(str("// ##### ERROR #####: ", e)); // POVRAY with error message
 module povm() povc(str("module ", parent_module($parent_modules-1))); // comment with the name of the current module
 
 function parameter(n,v) = (v == undef ? str("  /* ",n, " not defined*/") : str(indentstr, n, " ",v, "  "));
@@ -309,25 +309,25 @@ module _color(v,c="")
 
 // not implemented 3D transformations
 
-module _resize()
+module _resize(c="")
 {
-   pov(str("union { ", "substitute for resize()")); // child bounding box is needed for a 'resize'
+   pov(str("union { ", "// substitute for resize()")); // child bounding box is needed for a 'resize'
    pove("resize() not translated, subsituted by a union()");
    resize() { children([0:$children-1]); }
    pov(str("} ", c));
 }
 
-module _hull()
+module _hull(c="")
 {
-   pov(str("union { ", "substitute for hull()"));
+   pov(str("union { ", "// substitute for hull()"));
    pove("hull() not translated, subsituted by a union()");
    hull() { children([0:$children-1]); }
    pov(str("} ", c));
 }
 
-module _minkowski()
+module _minkowski(c="")
 {
-   pov(str("union { ", "subsitute for minkowski()"));
+   pov(str("union { ", "// substitute for minkowski()"));
    pove("minkowski() not translated, subsituted by a union()");
    minkowski() { children([0:$children-1]); }
    pov(str("} ", c));
