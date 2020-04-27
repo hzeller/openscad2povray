@@ -84,7 +84,7 @@ difference(){ //fin
 		difference(){
 
 			translate([0,0,7]){
-				sphere(16,center = true, $fn =res );
+				sphere(16, $fn =res );
 			}
 
 
@@ -479,7 +479,7 @@ module back_plate(){
 						translate([-6,0,-21]){
 									rotate (0, [0, 1, 0])
 										rotate (90, [0, 1, 0])
-											sphere(3,center = true, $fn =res );
+											sphere(3, $fn =res );
 
 						}
 
